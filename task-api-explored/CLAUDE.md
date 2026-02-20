@@ -2,38 +2,40 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Running the Application
+## Development Commands
 
 ```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the development server
 python app.py
 ```
 
-The Flask app runs in debug mode by default on http://localhost:5000.
+The API runs on port 5000 with debug mode enabled by default.
 
 ## Architecture
 
-This is a minimal Flask REST API for task management with no database persistence.
+This is a simple Flask REST API for task management with the following structure:
 
-### Module Responsibilities
+- **app.py**: Application entry point - registers blueprints and middleware
+- **routes.py**: API endpoint definitions using Flask blueprints
+- **models.py**: Data models and in-memory storage functions
+- **middleware.py**: Request logging middleware and decorators
+- **config.py**: Configuration classes for different environments
 
-- **app.py**: Flask app entry point. Imports routes using `from routes import *` after app initialization to avoid circular imports.
-- **config.py**: Configuration class loaded via `app.config.from_object(Config)`. Uses filesystem-based sessions (SESSION_TYPE = 'filesystem').
-- **middleware.py**: Request/response logging setup via `@app.before_request` and `@app.after_request` decorators.
-- **models.py**: `TaskStore` class provides in-memory task storage with no persistence between restarts.
-- **routes.py**: API endpoints that use `session.get('user_id', 'anonymous')` for user identification.
+### Key Architectural Patterns
 
-### Key Design Patterns
+**Storage**: Uses in-memory storage (`_tasks` list in models.py), not a database. Data is lost on restart.
 
-- **Session-based user tracking**: Users are identified by `session['user_id']`, defaulting to 'anonymous' if not set.
-- **In-memory storage**: All tasks are stored in `TaskStore._tasks` dictionary and lost on restart.
-- **Circular import pattern**: Routes import `app` from app.py, while app.py imports routes after app initialization.
+**Sessions**: The project is configured to use **filesystem-based sessions** (see `config.py`), not JWT or token-based authentication. When adding authentication or session features, extend the existing filesystem session pattern defined in `Config.SESSION_TYPE` and `Config.SESSION_FILE_DIR`.
 
-### API Endpoints
+**Middleware**: Custom middleware is applied via class-based wrappers (see `RequestLogger` in middleware.py) that register Flask hooks using `before_request` and `after_request`.
 
-- `GET /tasks` - Returns tasks for current session user
-- `POST /tasks` - Creates task (requires JSON with 'title', optional 'description')
-- `DELETE /tasks/<task_id>` - Deletes task by ID
+**Configuration**: Uses class-based config pattern with environment-specific subclasses (DevelopmentConfig, ProductionConfig). The active config is set at module level in config.py.
 
-## Session Storage
+## API Endpoints
 
-Sessions are stored in `/tmp/flask_sessions` as configured in config.py. This directory must be writable.
+- `GET /api/tasks` - List all tasks
+- `POST /api/tasks` - Create a task (requires JSON body with 'title', optional 'description')
+- `GET /api/tasks/<id>` - Get specific task by ID
