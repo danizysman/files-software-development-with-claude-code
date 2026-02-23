@@ -39,3 +39,13 @@ This is a simple Flask REST API for task management with the following structure
 - `GET /api/tasks` - List all tasks
 - `POST /api/tasks` - Create a task (requires JSON body with 'title', optional 'description')
 - `GET /api/tasks/<id>` - Get specific task by ID
+
+## Tests
+A test suite exists in `tests/test_models.py`. Run with:
+```bash
+pytest tests/
+```
+Tests cover the data model layer. Routes are not yet tested.
+## Current Task
+Focus on refactoring existing code for clarity and maintainability. 
+Do not add new features or change API behavior.
