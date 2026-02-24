@@ -26,6 +26,8 @@ Single-file Flask REST API (`app.py`) backed by SQLite (`chinook.db`).
 - Routes query the database directly and return JSON; connections are closed in a `finally` block
 
 **Current endpoint:**
-- `GET /artists/<artist_id>/albums` — returns artist info and their albums; 404 if artist or albums not found
+- `GET /artists/<artist_id>/albums` — returns albums for an artist as JSON array (returns empty array if artist not found or has no albums)
+
+**Exercise goal:** Add Pydantic validation and proper 404 error handling.
 
 **Relevant Chinook tables:** `artists` (ArtistId, Name), `albums` (AlbumId, Title, ArtistId)
