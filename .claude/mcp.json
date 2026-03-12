@@ -1,0 +1,11 @@
+mkdir -p .claude
+cat > .claude/mcp.json << 'EOF'
+{
+  "mcpServers": {
+    "sqlite": {
+      "command": "uvx",
+      "args": ["mcp-server-sqlite", "--db-path", "$PWD/chinook.db"]
+    }
+  }
+}
+EOF
