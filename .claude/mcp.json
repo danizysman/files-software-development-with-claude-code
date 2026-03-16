@@ -2,7 +2,7 @@
   "mcpServers": {
     "sqlite": {
       "command": "uvx",
-      "args": ["mcp-server-sqlite", "--db-path", "$PWD/chinook.db"]
+      "args": ["mcp-server-sqlite", "--db-path", "./chinook.db"]
     }
   }
 }
