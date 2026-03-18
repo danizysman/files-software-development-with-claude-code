@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sqlite": {
+      "command": "uvx",
+      "args": ["mcp-server-sqlite", "--db-path", "/Users/daniel.zysman/Repos/files-software-development-with-claude-code/chinook.db"]
+    }
+  }
+}

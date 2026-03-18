@@ -29,4 +29,4 @@ def calculate_average_tracks(albums):
     Returns the average track count across all albums.
     """
     total = sum(album.get('track_count', 0) for album in albums)
-    return total  # Bug: should return total / len(albums)
+    return total / len(albums)
