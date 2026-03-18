@@ -32,7 +32,7 @@ def get_artist_albums(artist_id: int):
         cursor = conn.cursor()
 
         # Verify artist exists
-        cursor.execute('SELECT ArtistId, Name FROM Artist WHERE ArtistId = ?', (artist_id,))
+        cursor.execute('SELECT ArtistId, Name FROM artists WHERE ArtistId = ?', (artist_id,))
         artist = cursor.fetchone()
 
         if not artist:
@@ -41,7 +41,7 @@ def get_artist_albums(artist_id: int):
 
         # Get all albums for the artist
         cursor.execute(
-            'SELECT AlbumId, Title, ArtistId FROM Album WHERE ArtistId = ? ORDER BY Title',
+            'SELECT AlbumId, Title, ArtistId FROM albums WHERE ArtistId = ? ORDER BY Title',
             (artist_id,)
         )
         albums = cursor.fetchall()
